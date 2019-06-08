@@ -1,25 +1,19 @@
 {
-  "name": "koa-getting-started",
+  "name": "react-trip",
+  "sideEffects": false,
   "version": "1.0.0",
-  "private": true,
-  "description": "A sample Node.js app using Koa",
-  "main": "server.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "nodemon": "nodemon server.js -- ",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --color",
     "build": "webpack --mode production"
   },
+  "author": "bear-new",
+  "license": "ISC",
   "dependencies": {
-    "antd-mobile": "^2.2.13",
-    "ejs": "^2.5.6",
-    "koa": "^2.3.0",
-    "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.2.1",
-    "koa-static": "^4.0.1",
-    "koa-views": "^6.0.2",
-    "leancloud-storage": "^3.0.2",
-    "leanengine": "^3.0.0",
+    "antd": "^3.14.1",
+    "echarts": "^4.1.0",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "react": "^16.2.0",
@@ -27,7 +21,6 @@
     "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
     "@types/echarts": "^4.1.4",
     "@types/react": "^16.8.4",
     "@types/react-dom": "^16.8.2",
@@ -63,8 +56,5 @@
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
     "webpack-parallel-uglify-plugin": "^1.1.0"
-  },
-  "engines": {
-    "node": "8.x"
   }
 }
