@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
 const HtmlWebpackPluginConfig = {
     title: "sdd-management",
-    filename: "index.html",
     template: "template.html",
     // true|body|head|false，四种值，默认为true
     // true和body相同,是将js注入到body结束标签前
@@ -15,7 +14,8 @@ const HtmlWebpackPluginConfig = {
 };
 
 module.exports = {
-    entry: "./src/main.tsx",
+    context: path.resolve(__dirname, "./client"),
+    entry: "./main.tsx",
     mode: "development",
     devtool: "source-map",
     output: {
@@ -26,12 +26,12 @@ module.exports = {
     resolve: {
         extensions: [".js", ".jsx", ".pcss", ".tsx", ".ts"],
         alias: {
-            pages: path.resolve(__dirname, "src/pages/"),
-            components: path.resolve(__dirname, "src/components/"),
-            routers: path.resolve(__dirname, "src/routers/"),
-            store: path.resolve(__dirname, "src/store/"),
-            utils: path.resolve(__dirname, "src/utils/"),
-            common: path.resolve(__dirname, "src/common/")
+            pages: path.resolve(__dirname, "client/pages/"),
+            components: path.resolve(__dirname, "client/components/"),
+            routers: path.resolve(__dirname, "client/routers/"),
+            store: path.resolve(__dirname, "client/store/"),
+            utils: path.resolve(__dirname, "client/utils/"),
+            common: path.resolve(__dirname, "client/common/")
         }
     },
     module: {

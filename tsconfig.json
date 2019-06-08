@@ -1,14 +1,49 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist/",
-      "experimentalDecorators": true,
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "noImplicitAny": true,
-      "module": "es6",
-      "target": "es5",
-      "jsx": "react",
-      "allowJs": true,
-      "baseUrl": "src"
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "es6",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "strictNullChecks": false,
+    "outDir": "build",
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
+    "baseUrl": "client",
+    "paths": {
+      "pages/**": [
+        "pages/**"
+      ],
+      "common/**": [
+        "common/**"
+      ],
+      "components/**": [
+        "components/**"
+      ],
+      "routers/**": [
+        "routers/**"
+      ],
+      "store/**": [
+        "store/**"
+      ],
+      "utils/**": [
+        "store/**"
+      ]
     }
-  }
+  },
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules"
+  ]
+}
