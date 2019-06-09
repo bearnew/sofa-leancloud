@@ -7,6 +7,8 @@ import "common/style/common.pcss";
 
 // render react DOM
 ReactDOM.render(
-    <Router />,
+    <Provider>
+        <Router />
+    </Provider>,
     document.getElementById("root")
 );

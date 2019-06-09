@@ -9,10 +9,13 @@
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
-    "baseUrl": "client",
+    "baseUrl": "./client",
     "paths": {
       "pages/*": [
         "pages/*"
+      ],
+      "components/*": [
+        "components/*"
       ],
       "routers/*": [
         "routers/*"
@@ -20,7 +23,7 @@
     }
   },
   "include": [
-    "client/**/*"
+    "client"
   ],
   "exclude": [
     "node_modules"

@@ -12,8 +12,7 @@
   "author": "bear-new",
   "license": "ISC",
   "dependencies": {
-    "antd": "^3.14.1",
-    "echarts": "^4.1.0",
+    "antd-mobile": "^2.2.13",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "react": "^16.2.0",
