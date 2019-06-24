@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 并行压缩js
 const WebpackParallelUglifyPlugin = require("webpack-parallel-uglify-plugin");
 const HtmlWebpackPluginConfig = {
-    title: "sdd-management",
+    title: "sofa",
     template: "template.html",
     // true|body|head|false，四种值，默认为true
     // true和body相同,是将js注入到body结束标签前
@@ -110,8 +110,9 @@ module.exports = {
         contentBase: path.join(__dirname, "dist"),
         // 是否启用 gzip 压缩
         // compress: true,
+        host: '127.0.0.1',
         // 监听的端口，省略的话则为8080
-        port: 9000,
+        port: 2222,
         // 源文件改变时，会自动刷新页面
         inline: true,
         // 终端输出的文件为彩色的
