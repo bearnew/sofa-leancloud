@@ -2,3 +2,6 @@
 dist/**
 *.json
 webpack.config.js
+app.js
+cloud.js
+server.js

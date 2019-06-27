@@ -2,6 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "noImplicitAny": true,
