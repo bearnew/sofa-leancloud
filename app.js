@@ -15,10 +15,10 @@ require('./cloud');
 const app = new Koa();
 
 // 设置模版引擎
-app.use(views(path.join(__dirname, 'views')));
+app.use(views(path.join(__dirname, 'dist')));
 
 // 设置静态资源目录
-app.use(statics(path.join(__dirname, 'public')));
+app.use(statics(path.join(__dirname, 'dist')));
 
 const router = new Router();
 app.use(router.routes());
@@ -28,9 +28,9 @@ app.use(AV.koa());
 
 app.use(bodyParser());
 
-router.get('/', async function(ctx) {
+router.get('/', async function (ctx) {
   ctx.state.currentTime = new Date();
-  await ctx.render('./index.ejs');
+  await ctx.render('./index.html');
 });
 
 // 可以将一类的路由单独保存在一个文件中
