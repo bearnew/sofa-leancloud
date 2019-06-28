@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { List, InputItem, Toast } from 'antd-mobile';
+import request, { API } from 'utils/request';
 
 export default class TextInfo extends React.Component<any, any> {
     constructor(props: any) {
@@ -18,6 +19,12 @@ export default class TextInfo extends React.Component<any, any> {
         this.getActivityInfo();
     }
     getActivityInfo = () => {
+        request(API.getStoreInfo, 'get')
+            .then((res: Object) => {
+                console.log(res);
+            }).catch((err: any) => {
+
+            })
         const info = {
             activityName: '哈哈大笑',
             shopName: '沙发',

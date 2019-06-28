@@ -15,10 +15,16 @@ require('./cloud');
 const app = new Koa();
 
 // 设置模版引擎
-app.use(views(path.join(__dirname, 'dist')));
+app.use(views(path.join(__dirname, '../dist')));
 
 // 设置静态资源目录
-app.use(statics(path.join(__dirname, 'dist')));
+app.use(statics(path.join(__dirname, '../dist')));
+
+// 设置允许跨域
+app.use(async (ctx, next) => {
+    ctx.set("Access-Control-Allow-Origin", "*");
+    await next();
+});
 
 const router = new Router();
 app.use(router.routes());
@@ -29,11 +35,12 @@ app.use(AV.koa());
 app.use(bodyParser());
 
 router.get('/', async function (ctx) {
-  ctx.state.currentTime = new Date();
-  await ctx.render('./index.html');
+    ctx.state.currentTime = new Date();
+    await ctx.render('./index.html');
 });
 
 // 可以将一类的路由单独保存在一个文件中
 app.use(require('./routes/todos').routes());
+app.use(require('./routes/store').routes());
 
 module.exports = app;
