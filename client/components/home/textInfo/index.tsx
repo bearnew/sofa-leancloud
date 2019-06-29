@@ -1,18 +1,36 @@
 import * as React from 'react';
-import { List, InputItem, Toast } from 'antd-mobile';
+import { List, TextareaItem, Button, WhiteSpace, Toast } from 'antd-mobile';
 import request, { API } from 'utils/request';
+import TextArea from './TextArea';
+import { storeName } from 'constant/store';
+import './style.pcss';
 
-export default class TextInfo extends React.Component<any, any> {
+interface StoreInfo {
+    activityName: string,
+    shopName: string,
+    name: string,
+    phone: string,
+    advertise: string
+}
+
+interface TextInfoState {
+    defaultVal: StoreInfo;
+    currentVal: StoreInfo;
+}
+
+export default class TextInfo extends React.Component<any, TextInfoState> {
     constructor(props: any) {
         super(props);
-        this.state = {
-            hasError: false,
-            value: '',
+        const obj = {
             activityName: '',
             shopName: '',
             name: '',
             phone: '',
             advertise: ''
+        }
+        this.state = {
+            defaultVal: obj,
+            currentVal: obj
         }
     }
     componentDidMount() {
@@ -20,96 +38,63 @@ export default class TextInfo extends React.Component<any, any> {
     }
     getActivityInfo = () => {
         request(API.getStoreInfo, 'get')
-            .then((res: Object) => {
-                console.log(res);
+            .then((res: any) => {
+                this.setState({
+                    defaultVal: res.data
+                })
             }).catch((err: any) => {
-
+                console.error(err);
             })
-        const info = {
-            activityName: '哈哈大笑',
-            shopName: '沙发',
-            name: '苏大强',
-            phone: '12345678',
-            advertise: '沙发沙发沙发'
-        }
-
-        this.setState({
-            ...info
+    }
+    onChangeValue = (item: any, val: any) => {
+        console.log(this.state.currentVal)
+        this.setState(prevState => ({
+            currentVal: {
+                ...prevState.currentVal,
+                [item]: val
+            }
+        }));
+    }
+    save = () => {
+        request(API.updateStoreInfo, 'post', {
+            ...this.state.currentVal
+        }).then(res => {
+            Toast.success(res.msg, 2);
+            this.getActivityInfo();
+        }).catch(err => {
+            console.error(err);
         })
     }
-    onErrorClick = () => {
-        if (this.state.hasError) {
-            Toast.info('Please enter 11 digits');
-        }
-    }
-    onChange = (value: String) => {
-        if (value.replace(/\s/g, '').length < 11) {
-            this.setState({
-                hasError: true,
-            });
-        } else {
-            this.setState({
-                hasError: false,
-            });
-        }
-        this.setState({
-            value,
-        });
-    }
     render() {
-        const {
-            activityName,
-            shopName,
-            name,
-            phone,
-            advertise
-        } = this.state;
-        console.log(activityName)
+        const list = ['activityName', 'shopName', 'name', 'phone', 'advertise'];
         return (
             <div>
-                <List>
-                    <InputItem
-                        value={activityName}
-                        disabled
-                    >
-                        活动名:
-                    </InputItem>
-                    <InputItem
-                        value={shopName}
-                        disabled
-                    >
-                        店名:
-                    </InputItem>
-                    <InputItem
-                        value={name}
-                        disabled
-                    >
-                        联系人:
-                    </InputItem>
-                    <InputItem
-                        value={phone}
-                        disabled
-                    >
-                        电话号码:
-                    </InputItem>
-                    <InputItem
-                        value={advertise}
-                        disabled
-                    >
-                        广告语:
-                    </InputItem>
+                <List renderHeader={() => '修改前'}>
+                    {
+                        list.map((item?: 'activityName' | 'shopName' | 'name' | 'phone' | 'advertise') => (
+                            <TextareaItem
+                                key={item}
+                                title={`${storeName[item]}:`}
+                                value={this.state.defaultVal[item]}
+                                disabled
+                            />
+                        ))
+                    }
                 </List>
-                <List>
-                    <InputItem
-                        type="phone"
-                        placeholder="input your phone"
-                        error={this.state.hasError}
-                        onErrorClick={this.onErrorClick}
-                        onChange={this.onChange}
-                        value={this.state.value}
-                    >
-                    手机号码
-                    </InputItem>
+                <List renderHeader={() => '修改后'}>
+                    {
+                        list.map((item?: 'activityName' | 'shopName' | 'name' | 'phone' | 'advertise') => (
+                            <TextArea
+                                key={item}
+                                item={item}
+                                onChangeValue={this.onChangeValue}
+                            />
+                        ))
+                    }
+                    <WhiteSpace />
+                    <div className="save">
+                        <Button type="primary" onClick={this.save}>确认修改</Button>
+                    </div>
                 </List>
             </div>
         );

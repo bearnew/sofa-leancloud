@@ -31,7 +31,8 @@ module.exports = {
             routers: path.resolve(__dirname, "client/routers/"),
             store: path.resolve(__dirname, "client/store/"),
             utils: path.resolve(__dirname, "client/utils/"),
-            common: path.resolve(__dirname, "client/common/")
+            common: path.resolve(__dirname, "client/common/"),
+            constant: path.resolve(__dirname, "client/constant/"),
         }
     },
     module: {

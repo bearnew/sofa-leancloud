@@ -3,42 +3,64 @@ const StoreModel = AV.Object.extend('Store');
 const store = new StoreModel();
 
 module.exports = {
+    // 更新店铺文字描述
     async updateStoreInfo(ctx) {
         const {
             ...info
         } = ctx.request.body;
+        let msg = '更新数据成功！';
 
-        store.set('textInfo', info);
-        await store.save();
+        try {
+            const query = new AV.Query('Store');
+            const data = await query.find();
+
+            if (data[0]) {
+                // 已存在，更新
+                objectId = data[0].get('objectId');
+                const todo = AV.Object.createWithoutData('Store', objectId);
+                todo.set('textInfo', info);
+                await todo.save();
+            } else {
+                // 不存在，创建
+                store.set('textInfo', info);
+                await store.save();
+            }
+        } catch (err) {
+            msg = '更新数据失败, 请重试!';
+        }
 
         ctx.status = 200;
         ctx.body = {
-            msg: '更新数据成功！'
+            msg
         };
     },
+    // 获取店铺文字描述
     async getStoreInfo(ctx) {
-        let info = {
+        let textInfo = {
             activityName: '',
             shopName: '',
             name: '',
             phone: '',
             advertise: ''
         };
+        let msg = '';
+
         try {
-            info = await store.fetch();
-        } catch(err) {
-            if (err.code === 101) {
-                // 该错误的信息为：{ code: 101, message: 'Class or object doesn\'t exists.' }，说明 Todo 数据表还未创建，所以返回空的 Todo 列表。
-                // 具体的错误代码详见：https://leancloud.cn/docs/error_code.html
-            } else {
-                throw err;
-            }
+            // AV.Query.doCloudQuery('delete from Store where objectId="5d177bdf1c0c7f00090b9fc1"')
+            var query = new AV.Query('Store');
+            const data = await query.find();
+            // const data = await store.fetch();
+
+            textInfo = data[0].toJSON().textInfo;
+            msg = '获取数据成功!'
+        } catch (err) {
+            msg = '数据还未填写!'
         }
 
         ctx.status = 200;
         ctx.body = {
-            res: info,
-            msg: '获取数据成功！'
+            data: textInfo,
+            msg
         };
     }
 };

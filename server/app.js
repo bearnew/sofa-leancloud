@@ -20,9 +20,8 @@ app.use(views(path.join(__dirname, '../dist')));
 // 设置静态资源目录
 app.use(statics(path.join(__dirname, '../dist')));
 
-// 设置允许跨域
 app.use(async (ctx, next) => {
-    ctx.set("Access-Control-Allow-Origin", "*");
+    ctx.set("Access-Control-Allow-Origin", "http://localhost:2222");
     await next();
 });
 
@@ -42,5 +41,6 @@ router.get('/', async function (ctx) {
 // 可以将一类的路由单独保存在一个文件中
 app.use(require('./routes/todos').routes());
 app.use(require('./routes/store').routes());
+
 
 module.exports = app;

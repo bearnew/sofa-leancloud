@@ -1,9 +1,8 @@
 const controller = require('../controllers/store');
 const Router = require('koa-router');
 
-const router = new Router({prefix: '/store'});
+const router = new Router({ prefix: '/store' });
 
-console.log(JSON.stringify(controller));
 // 获取店铺信息
 router.get('/get', controller.getStoreInfo);
 
