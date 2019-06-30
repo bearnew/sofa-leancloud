@@ -4,8 +4,10 @@ const baseUrl = 'http://localhost:3000';
 // const baseUrl = '9w7us8ac.leanapp.cn';
 
 export const API = {
-    getStoreInfo: 'store/get',
-    updateStoreInfo: 'store/update'
+    getStoreText: 'store/getText',
+    updateStoreText: 'store/updateText',
+    getStorePic: 'store/getPic',
+    updateStorePic: 'store/updatePic'
 };
 
 const request = (url, method, params) => {

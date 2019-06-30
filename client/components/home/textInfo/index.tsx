@@ -37,7 +37,7 @@ export default class TextInfo extends React.Component<any, TextInfoState> {
         this.getActivityInfo();
     }
     getActivityInfo = () => {
-        request(API.getStoreInfo, 'get')
+        request(API.getStoreText, 'get')
             .then((res: any) => {
                 this.setState({
                     defaultVal: res.data
@@ -56,7 +56,7 @@ export default class TextInfo extends React.Component<any, TextInfoState> {
         }));
     }
     save = () => {
-        request(API.updateStoreInfo, 'post', {
+        request(API.updateStoreText, 'post', {
             ...this.state.currentVal
         }).then(res => {
             Toast.success(res.msg, 2);

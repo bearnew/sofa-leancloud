@@ -1,5 +1,6 @@
 import * as React from 'react';
 import TextInfo from 'components/home/TextInfo/index';
+import ImageInfo from 'components/home/ImageInfo/index';
 import { Tabs } from 'antd-mobile';
 
 const tabTitles = [
@@ -21,7 +22,7 @@ export default class Login extends React.Component<any, any> {
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                 >
                     <TextInfo />
-                    <div>图片修改</div>
+                    <ImageInfo />
                 </Tabs>
             </div>
         );

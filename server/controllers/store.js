@@ -3,8 +3,41 @@ const StoreModel = AV.Object.extend('Store');
 const store = new StoreModel();
 
 module.exports = {
+    // 获取店铺文字描述
+    async getStoreText(ctx) {
+        let textInfo = {
+            activityName: '',
+            shopName: '',
+            name: '',
+            phone: '',
+            advertise: ''
+        };
+        let msg = '';
+
+        try {
+            // AV.Query.doCloudQuery('delete from Store where objectId="5d18905e52f5b900096491fd"')
+            var query = new AV.Query('Store');
+            const list = await query.find();
+            // const data = await store.fetch();
+
+            for (let i = 0; i < list.length; i++) {
+                const data = await list[i].get('textInfo');
+                data && (textInfo = data)
+            }
+
+            msg = '获取数据成功!'
+        } catch (err) {
+            msg = '数据还未填写!'
+        }
+
+        ctx.status = 200;
+        ctx.body = {
+            data: textInfo,
+            msg
+        };
+    },
     // 更新店铺文字描述
-    async updateStoreInfo(ctx) {
+    async updateStoreText(ctx) {
         const {
             ...info
         } = ctx.request.body;
@@ -12,11 +45,19 @@ module.exports = {
 
         try {
             const query = new AV.Query('Store');
-            const data = await query.find();
+            const list = await query.find();
+            let result = null;
 
-            if (data[0]) {
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].get('textInfo')) {
+                    result = list[i];
+                }
+            }
+
+            if (result) {
                 // 已存在，更新
-                objectId = data[0].get('objectId');
+                objectId = result.get('objectId');
+
                 const todo = AV.Object.createWithoutData('Store', objectId);
                 todo.set('textInfo', info);
                 await todo.save();
@@ -34,32 +75,61 @@ module.exports = {
             msg
         };
     },
-    // 获取店铺文字描述
-    async getStoreInfo(ctx) {
-        let textInfo = {
-            activityName: '',
-            shopName: '',
-            name: '',
-            phone: '',
-            advertise: ''
-        };
-        let msg = '';
+    // 获取店铺图片
+    async getStorePic(ctx) {
+        let msg = '获取图片成功!';
+        let urls = [];
 
         try {
-            // AV.Query.doCloudQuery('delete from Store where objectId="5d177bdf1c0c7f00090b9fc1"')
-            var query = new AV.Query('Store');
-            const data = await query.find();
-            // const data = await store.fetch();
+            const query = new AV.Query('Store');
+            const list = await query.find();
 
-            textInfo = data[0].toJSON().textInfo;
-            msg = '获取数据成功!'
+            for (let i = 0; i < list.length; i++) {
+                const data = await list[i].get('imageInfo');
+                data && (urls = data);
+            }
         } catch (err) {
-            msg = '数据还未填写!'
+            msg = '获取图片失败！';
         }
 
         ctx.status = 200;
         ctx.body = {
-            data: textInfo,
+            data: urls || [],
+            msg
+        };
+    },
+    // 更新店铺图片
+    async updateStorePic(ctx) {
+        const {
+            urls
+        } = ctx.request.body;
+        let msg = '';
+
+        try {
+            // 将上传后返回的url存储在imageInfo中
+            const query = new AV.Query('Store');
+            const list = await query.find();
+            let result = null;
+
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].get('imageInfo')) {
+                    result = list[i];
+                }
+            }
+
+            const objectId = result.get('objectId');
+
+            const todo = AV.Object.createWithoutData('Store', objectId);
+            todo.set('imageInfo', urls);
+            await todo.save();
+
+            msg = '图片上传成功！'
+        } catch (err) {
+            msg = '图片上传失败，请重试！'
+        }
+
+        ctx.status = 200;
+        ctx.body = {
             msg
         };
     }
