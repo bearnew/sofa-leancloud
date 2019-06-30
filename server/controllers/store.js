@@ -1,4 +1,4 @@
-const AV = require('leanengine');
+const AV = require('leancloud-storage');
 const StoreModel = AV.Object.extend('Store');
 const store = new StoreModel();
 
@@ -15,10 +15,8 @@ module.exports = {
         let msg = '';
 
         try {
-            // AV.Query.doCloudQuery('delete from Store where objectId="5d18905e52f5b900096491fd"')
             var query = new AV.Query('Store');
             const list = await query.find();
-            // const data = await store.fetch();
 
             for (let i = 0; i < list.length; i++) {
                 const data = await list[i].get('textInfo');
@@ -54,20 +52,15 @@ module.exports = {
                 }
             }
 
-            if (result) {
-                // 已存在，更新
-                objectId = result.get('objectId');
-
-                const todo = AV.Object.createWithoutData('Store', objectId);
-                todo.set('textInfo', info);
-                await todo.save();
-            } else {
-                // 不存在，创建
-                store.set('textInfo', info);
-                await store.save();
-            }
+            objectId = result.get('objectId');
+            const todo = AV.Object.createWithoutData('Store', objectId);
+            todo.set('textInfo', info);
+            await todo.save();
         } catch (err) {
             msg = '更新数据失败, 请重试!';
+            store.set('textInfo', info);
+            await store.save();
+            msg = '更新数据成功！';
         }
 
         ctx.status = 200;
@@ -117,15 +110,19 @@ module.exports = {
                 }
             }
 
+            // 已存在，更新
             const objectId = result.get('objectId');
 
             const todo = AV.Object.createWithoutData('Store', objectId);
             todo.set('imageInfo', urls);
             await todo.save();
-
             msg = '图片上传成功！'
         } catch (err) {
-            msg = '图片上传失败，请重试！'
+            msg = '图片上传失败，请重试！';
+            // 不存在，创建
+            store.set('imageInfo', urls);
+            await store.save();
+            msg = '图片上传成功！';
         }
 
         ctx.status = 200;

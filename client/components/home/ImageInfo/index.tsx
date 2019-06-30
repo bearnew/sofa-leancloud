@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { List, Button, ImagePicker, WingBlank } from 'antd-mobile';
+import { List, Button, ImagePicker, WingBlank, Toast } from 'antd-mobile';
 import request, { API } from 'utils/request';
 const AV = require('leancloud-storage');
 AV.initialize('EIgBYotIgkBg6gI1Pilq0SAY-9Nh9j0Va', 'TK8nEix64Fy5Baz5tR1wG0Qe');
@@ -67,7 +67,7 @@ export default class ImageInfo extends React.Component<any, ImageInfoState> {
         request(API.updateStorePic, 'post', {
             urls
         }).then((res: any) => {
-
+            Toast.success(res.msg, 2);
         }).catch((err: any) => {
             console.error(err);
         })

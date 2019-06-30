@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
-const baseUrl = 'http://localhost:3000';
-// const baseUrl = '9w7us8ac.leanapp.cn';
+// const baseUrl = 'http://localhost:3000';
+const baseUrl = '';
 
 export const API = {
     getStoreText: 'store/getText',
