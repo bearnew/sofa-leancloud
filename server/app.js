@@ -41,6 +41,7 @@ router.get('/', async function (ctx) {
 // 可以将一类的路由单独保存在一个文件中
 app.use(require('./routes/todos').routes());
 app.use(require('./routes/store').routes());
+app.use(require('./routes/user').routes());
 
 
 module.exports = app;
