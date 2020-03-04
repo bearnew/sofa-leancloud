@@ -25,25 +25,22 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-var count = 1;
-var maxAllowRequest = 5;
+let count = 0;
+const maxAllowRequest = 5;
 const queue = [];
 
-console.log('--------');
 app.use(async (ctx, next) => {
+    count++;
     // 如果超过了最大并发数目
-    console.log(count);
     if (count >= maxAllowRequest) {
         // 如果当前队列中已经过长
         await new Promise((resolve, reject) => {
             queue.push(resolve);
         });
     }
-    console.log('+++++++');
-    count++;
-    console.log('4444444');
     await next();
     count--;
+
     const task = queue.shift();
     task && task();
 });
@@ -59,7 +56,6 @@ app.use(router.routes());
 
 router.get('/', async function (ctx) {
     ctx.state.currentTime = new Date();
-    console.log('9999');
     // await ctx.render('./index.html');
     await delay();
     ctx.body = 'hello koa';
@@ -76,6 +72,6 @@ function delay() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve();
-        }, 1000);
+        }, 3000);
     });
 }
